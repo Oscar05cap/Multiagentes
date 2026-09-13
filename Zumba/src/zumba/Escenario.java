@@ -34,7 +34,7 @@ public class Escenario extends JFrame {
     private final JMenuItem randomObstacle = new JMenuItem("Random Obstacle");
     private final JMenuItem randomLeaf = new JMenuItem("Random leaves");
 
-    public static Escenario getInstance(int size, int dirtRate)
+    public static Escenario getInstance(int size, int dirtRate, int matrix[][])
     {
         if(instance == null)
            instance = new Escenario(size, dirtRate);
