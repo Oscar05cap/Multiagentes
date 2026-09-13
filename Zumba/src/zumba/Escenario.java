@@ -1,14 +1,17 @@
 package zumba;
 
+import jade.tools.sniffer.MMCanvas;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
 public class Escenario extends JFrame {
-
+    
     private static Escenario instance;
 
     private int matrix[][];
@@ -73,9 +76,9 @@ public class Escenario extends JFrame {
                 matrix[i][j] = 0;
                 grid[i][j] = new JLabel();
                 grid[i][j].setOpaque(false);
-
+                
                 int r = aleatorio.nextInt(0,100);
-
+                
                 if(r <= dirtRate)
                     grid[i][j].setIcon(dirt);
 
@@ -83,16 +86,16 @@ public class Escenario extends JFrame {
                 grid[i][j].addMouseListener(new MouseAdapter() // Este listener nos ayuda a agregar poner objetos en la rejilla
                 {
                     @Override
-                    public void mousePressed(MouseEvent e)
+                    public void mousePressed(MouseEvent e) 
                     {
                                insertObject(e);
-                    }
-
+                    }   
+                
                     @Override
-                    public void mouseReleased(MouseEvent e)
+                    public void mouseReleased(MouseEvent e) 
                     {
                                 insertObject(e);
-                    }
+                    }   
 
 
                 });
@@ -138,7 +141,7 @@ public class Escenario extends JFrame {
             if(!stationYN){
                 box.setIcon(stationIcon);
                 stationYN = true;
-                matrix[row][column] = 2; // Una estación de recarga tiene asignado un 2
+                matrix[row][column] = 2;
                 stationRow = row;
                 stationColumn = column;
             }else{
@@ -147,22 +150,6 @@ public class Escenario extends JFrame {
         }
         box.setIcon(actualIcon);
         matrix[row][column] = (actualIcon == obstacleIcon) ? 1 : (actualIcon == dirt) ? 3 : 0;
-        /*
-        Obstáculos = 1
-        Hojas = 3
-        Nada = 0
-        */
-    }
-
-    public int getObject(int row, int column){
-        if(row < 0 || row >= matrix.length || column < 0 || column >= matrix[0].length){
-            return 1;
-        }
-        return matrix[row][column];
-    }
-
-    public void cleanBox(int row, int column){
-        matrix[row][column] = 0;
     }
 
 }
