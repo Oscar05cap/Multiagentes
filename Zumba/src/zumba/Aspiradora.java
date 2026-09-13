@@ -67,6 +67,13 @@ public class Aspiradora extends Agent
         });
     }
 
+    private boolean validPosition(int newI, int newJ){
+        if(newI < 0 || newI >= matrix.length || newJ >0 || newJ >= matrix[0].length){
+            return false;
+        }
+        return matrix[newI][newJ] != 1;
+    }
+
     private void mover() 
     {    
         if(moving)
@@ -107,7 +114,7 @@ public class Aspiradora extends Agent
                 energy--;
             }
             else System.out.println(this.getName()+" NO me muevo, no se genero movimiento valido");
-               
+
             
             if(energy < initialEnergy/2) face = medium;
             if(energy < initialEnergy/4) face = low;
