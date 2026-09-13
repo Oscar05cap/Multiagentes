@@ -25,14 +25,14 @@ public class Aspiradora extends Agent
     private ImageIcon face;
     private final int initialEnergy = 500;
     private int energy;
-    private final int tick = 50; // 10 milisegundos 
+    private final int tick = 50; // 10 milisegundos
     private static int stationRow = -1;
     private static int stationColum = -1;
     private final Random aleatorio = new Random();
     private boolean moving = false;
     private int matrix[][];
 
-    protected void setup() 
+    protected void setup()
     {
         face = high;
         energy = initialEnergy;
@@ -41,25 +41,25 @@ public class Aspiradora extends Agent
         gui.colocar(0,0, face);
 
         // Agrega un comportamiento cíclico
-  
+
         this.addBehaviour(new CyclicBehaviour(this)
         {
-           @Override
-           public void action()
-           {
-               ACLMessage msg = receive();  // Espera un mensaje
-               if(msg!=null) // Verifica si se recibió mensaje
-               {
-                   String content = msg.getContent().toLowerCase();  // Extrae el contenido del mensaje
-                   if(content.equals("start") || content.equals("continue")) moving = true;
-                   if(content.equals("stop") || content.equals("pause")) moving = false;
-               }
-           }
+            @Override
+            public void action()
+            {
+                ACLMessage msg = receive();  // Espera un mensaje
+                if(msg!=null) // Verifica si se recibió mensaje
+                {
+                    String content = msg.getContent().toLowerCase();  // Extrae el contenido del mensaje
+                    if(content.equals("start") || content.equals("continue")) moving = true;
+                    if(content.equals("stop") || content.equals("pause")) moving = false;
+                }
+            }
         });
-                
+
         // Agrega un comportamiento controlado por tiempo
-        
-        this.addBehaviour(new TickerBehaviour(this, tick) { 
+
+        this.addBehaviour(new TickerBehaviour(this, tick) {
             @Override
             protected void onTick() {
                 mover();
@@ -68,30 +68,34 @@ public class Aspiradora extends Agent
     }
 
     private boolean validPosition(int newI, int newJ){
-        if(newI < 0 || newI >= matrix.length || newJ >0 || newJ >= matrix[0].length){
+        if(newI < 0 ||  newI >= size || newJ  < 0 || newJ >= size){
             return false;
         }
-        return matrix[newI][newJ] != 1;
+        int object = gui.getObject(newI, newJ);
+        return object != 1;
     }
 
-    private void mover() 
-    {    
+    private void mover()
+    {
         if(moving)
         {
             // Calcula dirección
-        
+
             int yPre = y;
             int xPre = x;
-        
-            dir = aleatorio.nextInt(1,5); 
-        
+
+            int newI = x;
+            int newJ = y;
+
+            dir = aleatorio.nextInt(1,5);
+
             // 1 - derecha
             // 2 - arriba
             // 3 - izquierda
             // 4 - abajo
-        
+
             String mov = "";
-        
+
             switch(dir)
             {
                 case 1 -> {
@@ -107,19 +111,21 @@ public class Aspiradora extends Agent
                     if(y < size-1) y++; mov = "abajo";
                 }
             }
-                        
-            if(xPre != x || yPre != y) // Hay movimiento
+
+            if(validPosition(newI, newJ) &&(xPre != x || yPre != y)) // Hay movimiento
             {
+                x = newI;
+                y = newJ;
                 System.out.println(this.getName()+ " Me muevo " + mov + " de "+ xPre + "," +yPre + " a " + x + "," + y);
                 energy--;
             }
             else System.out.println(this.getName()+" NO me muevo, no se genero movimiento valido");
 
-            
+
             if(energy < initialEnergy/2) face = medium;
             if(energy < initialEnergy/4) face = low;
-            if(energy == 0) face=dead; 
-            
+            if(energy == 0) face=dead;
+
             gui.actualizarPosicion(face, xPre, yPre, x, y);
             if(energy == 0) moving = false;
         }

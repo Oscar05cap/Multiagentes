@@ -1,10 +1,7 @@
 package zumba;
 
-import jade.tools.sniffer.MMCanvas;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -141,7 +138,7 @@ public class Escenario extends JFrame {
             if(!stationYN){
                 box.setIcon(stationIcon);
                 stationYN = true;
-                matrix[row][column] = 2;
+                matrix[row][column] = 2; // Una estación de recarga tiene asignado un 2
                 stationRow = row;
                 stationColumn = column;
             }else{
@@ -150,6 +147,11 @@ public class Escenario extends JFrame {
         }
         box.setIcon(actualIcon);
         matrix[row][column] = (actualIcon == obstacleIcon) ? 1 : (actualIcon == dirt) ? 3 : 0;
+        /*
+        Obstáculos = 1
+        Hojas = 3
+        Nada = 0
+        */
     }
 
     public int getObject(int row, int column){
