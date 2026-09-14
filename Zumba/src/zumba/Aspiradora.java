@@ -4,6 +4,8 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.tools.introspector.gui.IntrospectorGUI;
+
 import javax.swing.*;
 import java.util.Random;
 
@@ -87,7 +89,7 @@ public class Aspiradora extends Agent
             int newI = x;
             int newJ = y;
 
-            dir = aleatorio.nextInt(1,5);
+            dir = chooseDir();
 
             // 1 - derecha
             // 2 - arriba
@@ -127,10 +129,32 @@ public class Aspiradora extends Agent
 
     private void recharge()
     {
-    if(energy == initialEnergy) return;
+    if(energy >= initialEnergy) return;
 
     energy = initialEnergy;
     face = high;
     System.out.println(getName() + " AGENTE RECARGADO");
+    }
+
+    private int chooseDir()
+    {
+        boolean lowEnergy = energy < initialEnergy*0.30;
+        boolean stationLoc = Escenario.stationExistence();
+
+        if(lowEnergy && stationLoc){
+            int stationRow = Escenario.getStationRow();
+            int stationColumn = Escenario.getStationColumn();
+
+            int difX = Integer.compare(stationColumn, x); // -1 (<), 0 (=), +1 (>)
+            int difY = Integer.compare(stationRow, y);
+
+            if(aleatorio.nextInt(100) < 70) {
+                if (difX > 0) return 1; // derecha
+                if (difX < 0) return 3; // izquierda
+                if (difY > 0) return 4; // abajo
+                if (difY < 0) return 2; // arriba
+            }
+        }
+        return aleatorio.nextInt(1,5);
     }
 }
