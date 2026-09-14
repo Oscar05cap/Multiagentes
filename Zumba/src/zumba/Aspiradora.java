@@ -72,7 +72,7 @@ public class Aspiradora extends Agent
             return false;
         }
         int object = gui.getObject(newI, newJ);
-        return object != 1;
+        return object != 1; // evita el obstáculo
     }
 
     private void mover()
@@ -96,23 +96,14 @@ public class Aspiradora extends Agent
 
             String mov = "";
 
-            switch(dir)
-            {
-                case 1 -> {
-                    if(x < size-1) x++; mov = "derecha";
-                }
-                case 2 -> {
-                    if(y > 0) y--;  mov = "arriba";
-                }
-                case 3 -> {
-                    if(x > 0) x--;  mov = "izquierda";
-                }
-                case 4 -> {
-                    if(y < size-1) y++; mov = "abajo";
-                }
+            switch (dir) {
+                case 1 -> { newI = x + 1; mov = "derecha";   }
+                case 2 -> { newJ = y - 1; mov = "arriba";    }
+                case 3 -> { newI = x - 1; mov = "izquierda"; }
+                case 4 -> { newJ = y + 1; mov = "abajo";     }
             }
 
-            if(validPosition(newI, newJ) &&(xPre != x || yPre != y)) // Hay movimiento
+            if(validPosition(newI, newJ)) // Hay movimiento
             {
                 x = newI;
                 y = newJ;

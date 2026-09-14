@@ -108,8 +108,8 @@ public class Escenario extends JFrame {
 
     public void actualizarPosicion(ImageIcon face, int xPre, int yPre, int x, int y)
     {
-        grid[yPre][xPre].setIcon(null);
-        grid[y][x].setIcon(face);
+            grid[yPre][xPre].setIcon(null);
+            grid[y][x].setIcon(face);
     }
 
     private void leafSet(ItemEvent eventObject){
@@ -131,22 +131,22 @@ public class Escenario extends JFrame {
 
     public void insertObject(MouseEvent e){
         JLabel box = (JLabel) e.getSource();
-        int row = (box.getY() - 15) / 50;
-        int column = (box.getX() - 15) / 50;
+        int x = (box.getY() - 15) / 50;
+        int y = (box.getX() - 15) / 50;
 
-        if(actualIcon == stationIcon && matrix[row][column] != 2){
+        if(actualIcon == stationIcon && matrix[x][y] != 2){
             if(!stationYN){
                 box.setIcon(stationIcon);
                 stationYN = true;
-                matrix[row][column] = 2; // Una estación de recarga tiene asignado un 2
-                stationRow = row;
-                stationColumn = column;
+                matrix[x][y] = 2; // Una estación de recarga tiene asignado un 2
+                stationRow = x;
+                stationColumn = y;
             }else{
                 JOptionPane.showMessageDialog(this, "Ya existe una estación de recarga");
             }
         }
         box.setIcon(actualIcon);
-        matrix[row][column] = (actualIcon == obstacleIcon) ? 1 : (actualIcon == dirt) ? 3 : 0;
+        matrix[x][y] = (actualIcon == obstacleIcon) ? 1 : (actualIcon == dirt) ? 3 : 0;
         /*
         Obstáculos = 1
         Hojas = 3
@@ -154,11 +154,11 @@ public class Escenario extends JFrame {
         */
     }
 
-    public int getObject(int row, int column){
-        if(row < 0 || row >= matrix.length || column < 0 || column >= matrix[0].length){
+    public int getObject(int x, int y){
+        if(x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length){
             return 1;
         }
-        return matrix[row][column];
+        return matrix[x][y];
     }
 
     public void cleanBox(int row, int column){
