@@ -117,6 +117,8 @@ public class Aspiradora extends Agent
             if(energy < initialEnergy/4) face = low;
             if(energy == 0) face=dead;
 
+            gui.actualizarPosicion(face, xPre, yPre, x, y);
+            if(energy == 0) moving = false;
         }
     }
 

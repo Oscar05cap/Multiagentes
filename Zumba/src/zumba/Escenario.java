@@ -91,14 +91,6 @@ public class Escenario extends JFrame {
                     {
                                insertObject(row,col);
                     }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e)
-                    {
-                                insertObject(row,col);
-                    }
-
-
                 });
             }
         }
@@ -164,7 +156,6 @@ public class Escenario extends JFrame {
         Nada = 0
         */
     }
-
 
     public int getObject(int x, int y){
         if(x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length){
