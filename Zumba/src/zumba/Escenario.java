@@ -132,29 +132,38 @@ public class Escenario extends JFrame {
     }
 
     public void insertObject(MouseEvent e){
-        JLabel box = (JLabel) e.getSource();
-        int x = (box.getY() - 15) / 50;
-        int y = (box.getX() - 15) / 50;
+        if(actualIcon == null) return;
 
-        if(actualIcon == stationIcon && matrix[x][y] != 2){
-            if(!stationYN){
-                box.setIcon(stationIcon);
-                stationYN = true;
-                matrix[x][y] = 2; // Una estación de recarga tiene asignado un 2
-                stationRow = x;
-                stationColumn = y;
-            }else{
+        JLabel box = (JLabel) e.getSource();
+        int row = (box.getY() - 15) / 50;
+        int col = (box.getX() - 15) / 50;
+
+        if(actualIcon == stationIcon){
+            if(stationYN){
                 JOptionPane.showMessageDialog(this, "Ya existe una estación de recarga");
+                return;
             }
+            box.setIcon(stationIcon);
+            matrix[row][col] = 2;
+            stationYN = true;
+            stationRow = row;
+            stationColumn = col;
         }
-        box.setIcon(actualIcon);
-        matrix[x][y] = (actualIcon == obstacleIcon) ? 1 : (actualIcon == dirt) ? 3 : 0;
-        /*
+        else if(actualIcon == obstacleIcon){
+            box.setIcon(obstacleIcon);
+            matrix[row][col] = 1;
+        }
+        else if(actualIcon == dirt){
+            box.setIcon(dirt);
+            matrix[row][col] = 3;
+        }
+         /*
         Obstáculos = 1
         Hojas = 3
         Nada = 0
         */
     }
+
 
     public int getObject(int x, int y){
         if(x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length){
