@@ -4,9 +4,11 @@ import jade.core.Agent;
 import jade.core.behaviours.TickerBehaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.tools.introspector.gui.IntrospectorGUI;
+
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
@@ -117,10 +119,11 @@ public class Aspiradora extends Agent
             if(gui.getObject(x,y) ==2){
                 recharge();
             }
-
-            if(energy < initialEnergy/2) face = medium;
-            if(energy < initialEnergy/4) face = low;
-            if(energy == 0) face=dead;
+            ImageIcon base = (energy == 0)             ? dead
+                    : (energy < initialEnergy/4) ? low
+                    : (energy < initialEnergy/2) ? medium
+                    : high;
+            face = battery(base, energy, initialEnergy);
 
             gui.actualizarPosicion(face, xPre, yPre, x, y);
             if(energy == 0) moving = false;
@@ -145,6 +148,7 @@ public class Aspiradora extends Agent
             int stationRow = Escenario.getStationRow();
             int stationColumn = Escenario.getStationColumn();
 
+            // compara las distancias que hay a la ubicación de la estación
             int difX = Integer.compare(stationColumn, x); // -1 (<), 0 (=), +1 (>)
             int difY = Integer.compare(stationRow, y);
 
@@ -156,5 +160,32 @@ public class Aspiradora extends Agent
             }
         }
         return aleatorio.nextInt(1,5);
+    }
+    private ImageIcon battery(ImageIcon base, int energy, int max) {
+        int w = base.getIconWidth();
+        int h = base.getIconHeight();
+
+        BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = img.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g.drawImage(base.getImage(), 0, 0, null);
+
+        int barX = 2, barY = h - 7, barW = w - 4, barH = 5;
+        g.setColor(Color.BLACK);
+        g.fillRect(barX - 1, barY - 1, barW + 2, barH + 2);
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(barX, barY, barW, barH);
+
+        float pct = Math.min(1f, (float) energy / max);
+        Color c = pct > 0.5f ? new Color(60, 200, 60)
+                : pct > 0.25f ? new Color(240, 160, 0)
+                : new Color(220, 50, 50);
+        g.setColor(c);
+        g.fillRect(barX, barY, (int)(barW * pct), barH);
+
+        g.dispose();
+        return new ImageIcon(img);
     }
 }
