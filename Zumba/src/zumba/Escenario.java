@@ -76,8 +76,10 @@ public class Escenario extends JFrame {
 
                 int r = aleatorio.nextInt(0,100);
 
-                if(r <= dirtRate)
+                if(r <= dirtRate) {
                     grid[i][j].setIcon(dirt);
+                    matrix[i][j] = 3;
+                }
 
                 add(grid[i][j]);
                 grid[i][j].addMouseListener(new MouseAdapter() // Este listener nos ayuda a agregar poner objetos en la rejilla
@@ -158,7 +160,7 @@ public class Escenario extends JFrame {
         if(x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length){
             return 1;
         }
-        return matrix[x][y];
+        return matrix[y][x];
     }
 
     public void cleanBox(int row, int column){

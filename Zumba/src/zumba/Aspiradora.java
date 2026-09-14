@@ -68,11 +68,11 @@ public class Aspiradora extends Agent
     }
 
     private boolean validPosition(int newI, int newJ){
-        if(newI < 0 ||  newI >= size || newJ  < 0 || newJ >= size){
+        if(newI < 0 ||  newI >= size || newJ < 0 || newJ >= size){
             return false;
         }
         int object = gui.getObject(newI, newJ);
-        return object != 1; // evita el obstáculo
+        return object != 1; // evita el obstáculo (1)
     }
 
     private void mover()
@@ -103,7 +103,7 @@ public class Aspiradora extends Agent
                 case 4 -> { newJ = y + 1; mov = "abajo";     }
             }
 
-            if(validPosition(newI, newJ)) // Hay movimiento
+            if(validPosition(newI, newJ)) // Hay movimiento si la posición se considera válida
             {
                 x = newI;
                 y = newJ;
@@ -117,13 +117,25 @@ public class Aspiradora extends Agent
             if(energy < initialEnergy/4) face = low;
             if(energy == 0) face=dead;
 
+            int objPre = gui.getObject(xPre, yPre);
+            int objNew = gui.getObject(x, y);
+            System.out.println("celda vieja ("+xPre+","+yPre+")=" + objPre
+                    + " | celda nueva ("+x+","+y+")=" + objNew);
+            gui.actualizarPosicion(face, xPre, yPre, x, y);
+            System.out.println("después de actualizar: ("+x+","+y+")=" + gui.getObject(x, y));
+
             gui.actualizarPosicion(face, xPre, yPre, x, y);
             if(energy == 0) moving = false;
+            if (gui.getObject(x, y) == 3) {   // 3 = estación
+                recharge();
+            }
         }
     }
 
     private void recharge()
     {
-
+    energy = initialEnergy;
+    face = high;
+    System.out.println(getName() + " AGENTE RECARGADO");
     }
 }
