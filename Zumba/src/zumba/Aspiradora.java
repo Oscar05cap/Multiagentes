@@ -117,18 +117,6 @@ public class Aspiradora extends Agent
             if(energy < initialEnergy/4) face = low;
             if(energy == 0) face=dead;
 
-            int objPre = gui.getObject(xPre, yPre);
-            int objNew = gui.getObject(x, y);
-            System.out.println("celda vieja ("+xPre+","+yPre+")=" + objPre
-                    + " | celda nueva ("+x+","+y+")=" + objNew);
-            gui.actualizarPosicion(face, xPre, yPre, x, y);
-            System.out.println("después de actualizar: ("+x+","+y+")=" + gui.getObject(x, y));
-
-            gui.actualizarPosicion(face, xPre, yPre, x, y);
-            if(energy == 0) moving = false;
-            if (gui.getObject(x, y) == 3) {   // 3 = estación
-                recharge();
-            }
         }
     }
 

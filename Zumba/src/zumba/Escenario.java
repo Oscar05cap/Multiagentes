@@ -82,18 +82,20 @@ public class Escenario extends JFrame {
                 }
 
                 add(grid[i][j]);
+                final int row = i;
+                final int col = j;
                 grid[i][j].addMouseListener(new MouseAdapter() // Este listener nos ayuda a agregar poner objetos en la rejilla
                 {
                     @Override
                     public void mousePressed(MouseEvent e)
                     {
-                               insertObject(e);
+                               insertObject(row,col);
                     }
 
                     @Override
                     public void mouseReleased(MouseEvent e)
                     {
-                                insertObject(e);
+                                insertObject(row,col);
                     }
 
 
@@ -110,6 +112,7 @@ public class Escenario extends JFrame {
 
     public void actualizarPosicion(ImageIcon face, int xPre, int yPre, int x, int y)
     {
+            if(xPre == x && yPre == y) return;
             grid[yPre][xPre].setIcon(null);
             grid[y][x].setIcon(face);
     }
@@ -131,12 +134,10 @@ public class Escenario extends JFrame {
         actualIcon = opt.isSelected() ? stationIcon : null;
     }
 
-    public void insertObject(MouseEvent e){
+    public void insertObject(int row, int col){
         if(actualIcon == null) return;
 
-        JLabel box = (JLabel) e.getSource();
-        int row = (box.getY() - 15) / 50;
-        int col = (box.getX() - 15) / 50;
+        JLabel box = grid[row][col];
 
         if(actualIcon == stationIcon){
             if(stationYN){
