@@ -112,6 +112,9 @@ public class Aspiradora extends Agent
             }
             else System.out.println(this.getName()+" NO me muevo, no se genero movimiento valido");
 
+            if(gui.getObject(x,y) ==2){
+                recharge();
+            }
 
             if(energy < initialEnergy/2) face = medium;
             if(energy < initialEnergy/4) face = low;
@@ -124,6 +127,8 @@ public class Aspiradora extends Agent
 
     private void recharge()
     {
+    if(energy == initialEnergy) return;
+
     energy = initialEnergy;
     face = high;
     System.out.println(getName() + " AGENTE RECARGADO");

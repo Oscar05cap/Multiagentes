@@ -12,7 +12,7 @@ public class Escenario extends JFrame {
     private static Escenario instance;
 
     private int matrix[][];
-    private boolean stationYN;
+    private static boolean stationYN;
     private static int stationRow = -1;
     private static int stationColumn = -1;
 
@@ -124,6 +124,21 @@ public class Escenario extends JFrame {
     {
         JRadioButtonMenuItem opt = (JRadioButtonMenuItem) eventObject.getSource();
         actualIcon = opt.isSelected() ? stationIcon : null;
+    }
+
+    public static int getStationRow()
+    {
+        return stationRow;
+    }
+
+    public static int getStationColumn()
+    {
+        return stationColumn;
+    }
+
+    public static boolean stationExistence()
+    {
+        return stationYN;
     }
 
     public void insertObject(int row, int col){
