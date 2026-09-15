@@ -34,7 +34,8 @@ public class Aspiradora extends Agent
     private static int stationColum = -1;
     private final Random aleatorio = new Random();
     private boolean moving = false;
-    private int matrix[][];
+    private static final int tickRate = 10;
+    private int rechargeCounter = 0;
 
     protected void setup()
     {
@@ -64,6 +65,7 @@ public class Aspiradora extends Agent
         // Agrega un comportamiento controlado por tiempo
 
         this.addBehaviour(new TickerBehaviour(this, tick) {
+
             @Override
             protected void onTick() {
                 mover();
@@ -85,6 +87,10 @@ public class Aspiradora extends Agent
         {
             // Calcula dirección
 
+            if (gui.getObject(x, y) == 2 && energy < initialEnergy) {
+                recharge();
+                return;   // no se mueve mientras recarga
+            }
             int yPre = y;
             int xPre = x;
 
@@ -116,7 +122,7 @@ public class Aspiradora extends Agent
             }
             else System.out.println(this.getName()+" NO me muevo, no se genero movimiento valido");
 
-            if(gui.getObject(x,y) ==2){
+            if(gui.getObject(x,y) == 2){
                 recharge();
             }
             ImageIcon base = (energy == 0)             ? dead
@@ -132,11 +138,22 @@ public class Aspiradora extends Agent
 
     private void recharge()
     {
-    if(energy >= initialEnergy) return;
+        rechargeCounter++;
+        energy += initialEnergy /tickRate; // 25 unidades por cada tick
+        if(energy > initialEnergy) energy = initialEnergy;
 
-    energy = initialEnergy;
-    face = high;
-    System.out.println(getName() + " AGENTE RECARGADO");
+        if (energy > initialEnergy / 2)      face = battery(high,   energy, initialEnergy);
+        else if (energy > initialEnergy / 4) face = battery(medium, energy, initialEnergy);
+        else                                 face = battery(low,    energy, initialEnergy);
+        System.out.println(getName() + " recargando " + energy + "/" + initialEnergy);
+
+        // repinta la cara en la misma posición
+        gui.actualizarPosicion(face, x, y, x, y);
+
+        if(energy >= initialEnergy){
+            rechargeCounter = 0;
+        }
+        System.out.println(getName() + " AGENTE RECARGADO");
     }
 
     private int chooseDir()

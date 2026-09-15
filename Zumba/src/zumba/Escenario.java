@@ -109,8 +109,9 @@ public class Escenario extends JFrame {
     }
 
     public void actualizarPosicion(ImageIcon face, int xPre, int yPre, int x, int y) {
-        if (xPre == x && yPre == y) return;
-        grid[yPre][xPre].setIcon(null);
+        if (xPre != x || yPre != y) {
+            grid[yPre][xPre].setIcon(null);   // solo limpia si realmente se movió
+        }
         grid[y][x].setIcon(face);
     }
 
