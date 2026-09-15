@@ -60,8 +60,8 @@ public class Escenario extends JFrame {
         settings.add(obstacle);
         settings.add(leaf);
         settings.add(deleteObject);
-        generate.add(randomObstacle);
-        generate.add(randomLeaf);
+        generate.add(randomObstacle); // no sirve
+        generate.add(randomLeaf); // no sirve
 
         grid = new JLabel[size][size];
         matrix = new int[size][size];

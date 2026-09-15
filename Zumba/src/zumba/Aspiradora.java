@@ -122,6 +122,10 @@ public class Aspiradora extends Agent
             }
             else System.out.println(this.getName()+" NO me muevo, no se genero movimiento valido");
 
+            if(gui.getObject(x,y) == 3){
+                energy-=2;
+            }
+
             if(gui.getObject(x,y) == 2){
                 recharge();
             }
@@ -139,12 +143,14 @@ public class Aspiradora extends Agent
     private void recharge()
     {
         rechargeCounter++;
-        energy += initialEnergy /tickRate; // 25 unidades por cada tick
+        energy += initialEnergy /tickRate; // 25 unidades de carga por cada tick
         if(energy > initialEnergy) energy = initialEnergy;
 
+        // cambia las caras dependiendo del porcentaje de carga
         if (energy > initialEnergy / 2)      face = battery(high,   energy, initialEnergy);
         else if (energy > initialEnergy / 4) face = battery(medium, energy, initialEnergy);
         else                                 face = battery(low,    energy, initialEnergy);
+
         System.out.println(getName() + " recargando " + energy + "/" + initialEnergy);
 
         // repinta la cara en la misma posición
@@ -178,7 +184,7 @@ public class Aspiradora extends Agent
         }
         return aleatorio.nextInt(1,5);
     }
-    private ImageIcon battery(ImageIcon base, int energy, int max) {
+    private ImageIcon battery(ImageIcon base, int energy, int max) { // barra de carga
         int w = base.getIconWidth();
         int h = base.getIconHeight();
 
