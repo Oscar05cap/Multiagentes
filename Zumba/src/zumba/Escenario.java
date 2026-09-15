@@ -109,8 +109,12 @@ public class Escenario extends JFrame {
     }
 
     public void actualizarPosicion(ImageIcon face, int xPre, int yPre, int x, int y) {
-        if (xPre != x || yPre != y) {
-            grid[yPre][xPre].setIcon(null);   // solo limpia si realmente se movió
+        if (xPre != x || yPre != y){
+            if (matrix[yPre][xPre] == 2){ // no borra el ícono de estación cuando pasa
+                grid[yPre][xPre].setIcon(stationIcon);
+            } else {
+                grid[yPre][xPre].setIcon(null);   // solo limpia si realmente se movió
+            }
         }
         grid[y][x].setIcon(face);
     }
@@ -181,7 +185,7 @@ public class Escenario extends JFrame {
         box.setIcon(null);
         matrix[row][col] = 0;
 
-        // Para liberar la station
+        // Para liberar la station una vez eliminada otra estación
         if (stationRow == row && stationColumn == col) {
             stationYN = false;
             stationRow = -1;

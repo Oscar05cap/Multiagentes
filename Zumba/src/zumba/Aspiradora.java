@@ -20,8 +20,6 @@ public class Aspiradora extends Agent
     private Escenario gui;
     private  int x = 0, y = 0;  // Posición inicial en la cuadrícula
     private final int size = 15;     // Tamaño de la habitación
-    private final int dirtRate = 15; // Porcentaje de suciedad
-    private int dir = 0;
     private final ImageIcon high = new ImageIcon("Zumba/imagenes/buttercup.png");
     private final ImageIcon medium = new ImageIcon("Zumba/imagenes/bubbles.png");
     private final ImageIcon low = new ImageIcon("Zumba/imagenes/blossom.png");
@@ -29,9 +27,6 @@ public class Aspiradora extends Agent
     private ImageIcon face;
     private final int initialEnergy = 500;
     private int energy;
-    private final int tick = 50; // 10 milisegundos
-    private static int stationRow = -1;
-    private static int stationColum = -1;
     private final Random aleatorio = new Random();
     private boolean moving = false;
     private static final int tickRate = 10;
@@ -41,6 +36,8 @@ public class Aspiradora extends Agent
     {
         face = high;
         energy = initialEnergy;
+        // Porcentaje de suciedad
+        int dirtRate = 15;
         gui = Escenario.getInstance(size, dirtRate); // Obtiene instancia del escenario
         gui.setVisible(true);
         gui.colocar(0,0, face);
@@ -64,6 +61,8 @@ public class Aspiradora extends Agent
 
         // Agrega un comportamiento controlado por tiempo
 
+        // 10 milisegundos
+        int tick = 50;
         this.addBehaviour(new TickerBehaviour(this, tick) {
 
             @Override
@@ -97,7 +96,7 @@ public class Aspiradora extends Agent
             int newI = x;
             int newJ = y;
 
-            dir = chooseDir();
+            int dir = chooseDir();
 
             // 1 - derecha
             // 2 - arriba
@@ -123,17 +122,18 @@ public class Aspiradora extends Agent
             else System.out.println(this.getName()+" NO me muevo, no se genero movimiento valido");
 
             if(gui.getObject(x,y) == 3){
-                energy-=2;
+                energy-=2; // por cada hoja se consumen dos unidades de carga
             }
 
             if(gui.getObject(x,y) == 2){
-                recharge();
+                recharge(); // si cae en una estación se recarga
+
             }
             ImageIcon base = (energy == 0)             ? dead
                     : (energy < initialEnergy/4) ? low
                     : (energy < initialEnergy/2) ? medium
                     : high;
-            face = battery(base, energy, initialEnergy);
+            face = battery(base, energy);
 
             gui.actualizarPosicion(face, xPre, yPre, x, y);
             if(energy == 0) moving = false;
@@ -147,9 +147,9 @@ public class Aspiradora extends Agent
         if(energy > initialEnergy) energy = initialEnergy;
 
         // cambia las caras dependiendo del porcentaje de carga
-        if (energy > initialEnergy / 2)      face = battery(high,   energy, initialEnergy);
-        else if (energy > initialEnergy / 4) face = battery(medium, energy, initialEnergy);
-        else                                 face = battery(low,    energy, initialEnergy);
+        if (energy > initialEnergy / 2)      face = battery(high,   energy);
+        else if (energy > initialEnergy / 4) face = battery(medium, energy);
+        else                                 face = battery(low,    energy);
 
         System.out.println(getName() + " recargando " + energy + "/" + initialEnergy);
 
@@ -184,7 +184,7 @@ public class Aspiradora extends Agent
         }
         return aleatorio.nextInt(1,5);
     }
-    private ImageIcon battery(ImageIcon base, int energy, int max) { // barra de carga
+    private ImageIcon battery(ImageIcon base, int energy) { // barra de carga
         int w = base.getIconWidth();
         int h = base.getIconHeight();
 
@@ -201,7 +201,7 @@ public class Aspiradora extends Agent
         g.setColor(Color.DARK_GRAY);
         g.fillRect(barX, barY, barW, barH);
 
-        float pct = Math.min(1f, (float) energy / max);
+        float pct = Math.min(1f, (float) energy / 500);
         Color c = pct > 0.5f ? new Color(60, 200, 60)
                 : pct > 0.25f ? new Color(240, 160, 0)
                 : new Color(220, 50, 50);
@@ -211,4 +211,5 @@ public class Aspiradora extends Agent
         g.dispose();
         return new ImageIcon(img);
     }
+
 }
