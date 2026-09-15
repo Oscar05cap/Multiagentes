@@ -6,18 +6,19 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import java.awt.image.BufferedImage;
 
 public class Escenario extends JFrame {
 
     private static Escenario instance;
 
     private int matrix[][];
-    private boolean stationYN;
+    private static boolean stationYN;
     private static int stationRow = -1;
     private static int stationColumn = -1;
 
     private final JLabel[][] grid;
-    private final ImageIcon dirt  = new ImageIcon("Zumba/imagenes/leaf.png");
+    private final ImageIcon dirt = new ImageIcon("Zumba/imagenes/leaf.png");
     private final ImageIcon obstacleIcon = new ImageIcon("Zumba/imagenes/obstacle.jpg");
     private final ImageIcon stationIcon = new ImageIcon("Zumba/imagenes/station.jpg");
     private ImageIcon actualIcon;
@@ -28,19 +29,19 @@ public class Escenario extends JFrame {
     private final JRadioButtonMenuItem obstacle = new JRadioButtonMenuItem("Obstacle");
     private final JRadioButtonMenuItem leaf = new JRadioButtonMenuItem("Leaf");
     private final JRadioButtonMenuItem station = new JRadioButtonMenuItem("Station");
+    private final JRadioButtonMenuItem deleteObject = new JRadioButtonMenuItem("Delete Object");
     private final JMenuItem randomObstacle = new JMenuItem("Random Obstacle");
     private final JMenuItem randomLeaf = new JMenuItem("Random leaves");
 
-    public static Escenario getInstance(int size, int dirtRate)
-    {
-        if(instance == null)
-           instance = new Escenario(size, dirtRate);
+    public static Escenario getInstance(int size, int dirtRate) {
+        if (instance == null)
+            instance = new Escenario(size, dirtRate);
         return instance;
     }
 
     private Escenario(int size, int dirtRate) {
         setTitle("Probando JADE (MyName)");
-        setSize(50*size, 50*size);
+        setSize(50 * size, 50 * size);
         this.setContentPane(floor);
         setLayout(new GridLayout(size, size));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,6 +50,7 @@ public class Escenario extends JFrame {
         settingOptions.add(leaf);
         settingOptions.add(obstacle);
         settingOptions.add(station);
+        settingOptions.add(deleteObject);
 
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
@@ -57,8 +59,9 @@ public class Escenario extends JFrame {
         settings.add(station);
         settings.add(obstacle);
         settings.add(leaf);
-        generate.add(randomObstacle);
-        generate.add(randomLeaf);
+        settings.add(deleteObject);
+        generate.add(randomObstacle); // no sirve
+        generate.add(randomLeaf); // no sirve
 
         grid = new JLabel[size][size];
         matrix = new int[size][size];
@@ -67,6 +70,7 @@ public class Escenario extends JFrame {
         leaf.addItemListener(evt -> leafSet(evt));
         obstacle.addItemListener(evt -> obstacleSet(evt));
         station.addItemListener(evt -> stationSet(evt));
+        deleteObject.addItemListener(evt -> delObject(evt));
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -74,95 +78,122 @@ public class Escenario extends JFrame {
                 grid[i][j] = new JLabel();
                 grid[i][j].setOpaque(false);
 
-                int r = aleatorio.nextInt(0,100);
+                int r = aleatorio.nextInt(0, 100);
 
-                if(r <= dirtRate)
+                if (r <= dirtRate) {
                     grid[i][j].setIcon(dirt);
+                    matrix[i][j] = 3;
+                }
 
                 add(grid[i][j]);
+                final int row = i;
+                final int col = j;
                 grid[i][j].addMouseListener(new MouseAdapter() // Este listener nos ayuda a agregar poner objetos en la rejilla
                 {
                     @Override
-                    public void mousePressed(MouseEvent e)
-                    {
-                               insertObject(e);
+                    public void mousePressed(MouseEvent e) {
+                        if (actualIcon == null) {
+                            eraseObject(row, col);
+                        } else {
+                            insertObject(row, col);
+                        }
                     }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e)
-                    {
-                                insertObject(e);
-                    }
-
-
                 });
             }
         }
 
     }
 
-    public void colocar(int i, int j, ImageIcon face)
-    {
+    public void colocar(int i, int j, ImageIcon face) {
         grid[i][j].setIcon(face);
     }
 
-    public void actualizarPosicion(ImageIcon face, int xPre, int yPre, int x, int y)
-    {
-        grid[yPre][xPre].setIcon(null);
+    public void actualizarPosicion(ImageIcon face, int xPre, int yPre, int x, int y) {
+        if (xPre != x || yPre != y) {
+            grid[yPre][xPre].setIcon(null);   // solo limpia si realmente se movió
+        }
         grid[y][x].setIcon(face);
     }
 
-    private void leafSet(ItemEvent eventObject){
+    private void delObject(ItemEvent eventObject) {
+        JRadioButtonMenuItem opt = (JRadioButtonMenuItem) eventObject.getSource();
+        if (opt.isSelected()) actualIcon = null;
+    }
+
+    private void leafSet(ItemEvent eventObject) {
         JRadioButtonMenuItem opt = (JRadioButtonMenuItem) eventObject.getSource();
         actualIcon = opt.isSelected() ? dirt : null;
     }
 
-    private void obstacleSet(ItemEvent eventObject)
-    {
+    private void obstacleSet(ItemEvent eventObject) {
         JRadioButtonMenuItem opt = (JRadioButtonMenuItem) eventObject.getSource();
         actualIcon = opt.isSelected() ? obstacleIcon : null;
     }
 
-    private void stationSet(ItemEvent eventObject)
-    {
+    private void stationSet(ItemEvent eventObject) {
         JRadioButtonMenuItem opt = (JRadioButtonMenuItem) eventObject.getSource();
         actualIcon = opt.isSelected() ? stationIcon : null;
     }
 
-    public void insertObject(MouseEvent e){
-        JLabel box = (JLabel) e.getSource();
-        int row = (box.getY() - 15) / 50;
-        int column = (box.getX() - 15) / 50;
+    public static int getStationRow() {
+        return stationRow;
+    }
 
-        if(actualIcon == stationIcon && matrix[row][column] != 2){
-            if(!stationYN){
-                box.setIcon(stationIcon);
-                stationYN = true;
-                matrix[row][column] = 2; // Una estación de recarga tiene asignado un 2
-                stationRow = row;
-                stationColumn = column;
-            }else{
+    public static int getStationColumn() {
+        return stationColumn;
+    }
+
+    public static boolean stationExistence() {
+        return stationYN;
+    }
+
+    public void insertObject(int row, int col) {
+        if (actualIcon == null) return;
+
+        JLabel box = grid[row][col];
+
+        if (actualIcon == stationIcon) {
+            if (stationYN) {
                 JOptionPane.showMessageDialog(this, "Ya existe una estación de recarga");
+                return;
             }
+            box.setIcon(stationIcon);
+            matrix[row][col] = 2;
+            stationYN = true;
+            stationRow = row;
+            stationColumn = col;
+        } else if (actualIcon == obstacleIcon) {
+            box.setIcon(obstacleIcon);
+            matrix[row][col] = 1;
+        } else if (actualIcon == dirt) {
+            box.setIcon(dirt);
+            matrix[row][col] = 3;
         }
-        box.setIcon(actualIcon);
-        matrix[row][column] = (actualIcon == obstacleIcon) ? 1 : (actualIcon == dirt) ? 3 : 0;
-        /*
+         /*
         Obstáculos = 1
         Hojas = 3
         Nada = 0
         */
     }
 
-    public int getObject(int row, int column){
-        if(row < 0 || row >= matrix.length || column < 0 || column >= matrix[0].length){
-            return 1;
+    public void eraseObject(int row, int col) {
+        JLabel box = grid[row][col];
+        box.setIcon(null);
+        matrix[row][col] = 0;
+
+        // Para liberar la station
+        if (stationRow == row && stationColumn == col) {
+            stationYN = false;
+            stationRow = -1;
+            stationColumn = -1;
         }
-        return matrix[row][column];
     }
 
-    public void cleanBox(int row, int column){
-        matrix[row][column] = 0;
+    public int getObject(int x, int y) {
+        if (x < 0 || x >= matrix.length || y < 0 || y >= matrix[0].length) {
+            return 1;
+        }
+        return matrix[y][x];
     }
 
 }
