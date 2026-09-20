@@ -142,44 +142,52 @@ public class Boss extends Agent
         int x, y;
         boolean validPosition;
 
+        // busca una celda libre, descartando obstáculos (1) y monedas ya colocadas (2)
         do {
             x = rand.nextInt(0, size);
             y = rand.nextInt(0, size);
             validPosition = m[y][x] != 1 && m[y][x] != 2;
         } while (!validPosition);
 
+        // pinta una moneda y la registra en la matriz
         gui.dirty(x, y);
         nCoins++;
 
+        // asigna la moneda al trabajador más cercano
         String closestWorker = findClosestWorker(x, y);
         if (closestWorker != null) {
             sendMessage(closestWorker, "coin(" + x + "," + y + ")");
+            // toma el índice del último dígito del nombre que tiene el trabajador
             busy[Integer.parseInt(closestWorker.substring(closestWorker.length() - 1)) - 1] = true;
+            // marca al trabajador como no disponible mientras realiza la tarea
             freeWorkers.remove(closestWorker);
         }
     }
 
     private String findClosestWorker(int targetX, int targetY)
     {
+        // se guardan todos los candidatos empatados a la distancia mínima
         List<String> candidatos = new ArrayList<>();
         int bestDist = Integer.MAX_VALUE;
 
         for (String workerId : freeWorkers) {
             int[] pos = workerPositions.get(workerId);
-            if (pos == null) continue;
+            if (pos == null) continue; // se descarta si existe una posición desconocida
 
             int dist = Math.abs(pos[0] - targetX) + Math.abs(pos[1] - targetY);
 
             if (dist < bestDist) {
+                // si se encuentra un nuevo minímo los candidatos anteriores quedan descartados
                 bestDist = dist;
                 candidatos.clear();
                 candidatos.add(workerId);
             } else if (dist == bestDist) {
+                // empata con el mínimo actual y se añade como candidato
                 candidatos.add(workerId);
             }
         }
 
-        if (candidatos.isEmpty()) return null;
+        if (candidatos.isEmpty()) return null; // ningún trabajador libre con posición
         return candidatos.get(new Random().nextInt(candidatos.size()));
     }
 
@@ -197,8 +205,11 @@ public class Boss extends Agent
         try
         {
             ContainerController container = getContainerController();
+            /* Se especifican los nombres de los agentes a snifear separados por punto y coma
+            El boss debe llamarse estrictamente "Boss" para que sea snifeado automáticamente
+             */
             AgentController sniffer = container.createNewAgent(
-                    "Sniffer", "jade.tools.sniffer.Sniffer", new Object[]{});
+                    "Sniffer", "jade.tools.sniffer.Sniffer", new Object[]{"Boss;Trabajador_1;Trabajador_2;Trabajador_3"});
             sniffer.start();
 
         } catch (StaleProxyException e) {e.printStackTrace();}
