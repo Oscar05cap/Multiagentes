@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f2b75150-510a-43d7-8d9c-671630dffb4a" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../LICENSE" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0000000000000013" />
+      <entry key="S2" value="1.0005091476051253" />
+      <entry key="S5" value="1.1330870825089003" />
+      <entry key="S10" value="1.9868751716745319" />
+      <entry key="S30" value="5.941285549214931" />
+      <entry key="S60" value="9.78608701682036" />
+      <entry key="M2" value="14.7503617827299" />
+      <entry key="M5" value="22.40095380227395" />
+      <entry key="M10" value="31.732423828523455" />
+      <entry key="M15" value="44.24008759954799" />
+      <entry key="M30" value="98.64536645779562" />
+      <entry key="H1" value="212.3924754664764" />
+      <entry key="H2" value="379.0536311225587" />
+      <entry key="H4" value="604.0955833289595" />
+      <entry key="D1" value="1218.647083513986" />
+      <entry key="W1" value="1444.8908008986232" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="7.567594012460496E-197" />
+      <entry key="MS500" value="5.9674881459913725E-40" />
+      <entry key="S2" value="1.5629600998715764E-10" />
+      <entry key="S5" value="1.1955814182338596E-4" />
+      <entry key="S10" value="0.010934434258596625" />
+      <entry key="S30" value="0.22943595761316152" />
+      <entry key="S60" value="0.6079459837246693" />
+      <entry key="M2" value="1.3170817525460925" />
+      <entry key="M5" value="2.684882044772356" />
+      <entry key="M10" value="4.95717135614347" />
+      <entry key="M15" value="8.426861262469371" />
+      <entry key="M30" value="22.322817899174815" />
+      <entry key="H1" value="46.50819325455993" />
+      <entry key="H2" value="76.5652810579275" />
+      <entry key="H4" value="118.15352172393982" />
+      <entry key="D1" value="258.86314259211116" />
+      <entry key="W1" value="316.5297614335376" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.007921558435859602" />
+      <entry key="MS500" value="0.3799812141003797" />
+      <entry key="S2" value="0.7855342397929939" />
+      <entry key="S5" value="1.0279984003729474" />
+      <entry key="S10" value="1.8995487032241047" />
+      <entry key="S30" value="6.067964350077539" />
+      <entry key="S60" value="10.308240609366237" />
+      <entry key="M2" value="16.001526727754236" />
+      <entry key="M5" value="25.045124678583498" />
+      <entry key="M10" value="36.65968333972631" />
+      <entry key="M15" value="52.63762456851601" />
+      <entry key="M30" value="120.93281303440067" />
+      <entry key="H1" value="258.86247297512386" />
+      <entry key="H2" value="455.5858212787781" />
+      <entry key="H4" value="722.2232017046356" />
+      <entry key="D1" value="1477.501318778387" />
+      <entry key="W1" value="1761.4190373369652" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3J4EFqRSHjTiq1kbrPx7L7nCTx3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Boot.executor": "Run",
+    "Application.Unnamed.executor": "Run",
+    "Application.Zumba.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/oscar/Documents/Multiagentes/Práctica 2",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.14555556",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Boot" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="jade.Boot" />
+      <module name="zoomba" />
+      <option name="PROGRAM_PARAMETERS" value="-gui -agents miAspiradora:zumba.Aspiradora miAspiradora2:zumba.Aspiradora" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f2b75150-510a-43d7-8d9c-671630dffb4a" name="Changes" comment="" />
+      <created>1788911843081</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1788911843081</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feature/obstacle" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="NONE" type="java-line">
+          <url>file://$PROJECT_DIR$/out/production/zoomba/zumba/Zumba.class</url>
+          <line>7</line>
+          <placement>INTER_LINE</placement>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
