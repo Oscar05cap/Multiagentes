@@ -112,7 +112,7 @@ public class Boss extends Agent
                     workers[i].start();
                     Thread.sleep(2000);
                     busy[i] = false; // inicialmente todos los trabajadores están libres
-                    workerPositions.put(workerId, new int[]{i * 2, 0}); // posición inicial
+                    workerPositions.put(workerId, new int[]{0,0}); // posición inicial
                     freeWorkers.add(workerId); // añade a la lista de trabajadores libres
                 }
             } catch (Exception e) {
@@ -161,7 +161,7 @@ public class Boss extends Agent
 
     private String findClosestWorker(int targetX, int targetY)
     {
-        String best = null;
+        List<String> candidatos = new ArrayList<>();
         int bestDist = Integer.MAX_VALUE;
 
         for (String workerId : freeWorkers) {
@@ -169,12 +169,18 @@ public class Boss extends Agent
             if (pos == null) continue;
 
             int dist = Math.abs(pos[0] - targetX) + Math.abs(pos[1] - targetY);
+
             if (dist < bestDist) {
                 bestDist = dist;
-                best = workerId;
+                candidatos.clear();
+                candidatos.add(workerId);
+            } else if (dist == bestDist) {
+                candidatos.add(workerId);
             }
         }
-        return best;
+
+        if (candidatos.isEmpty()) return null;
+        return candidatos.get(new Random().nextInt(candidatos.size()));
     }
 
     // Método para enviar mensajes a otros agentes

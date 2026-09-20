@@ -41,10 +41,7 @@ public class Worker extends Agent
 
         face = faces[(Integer.parseInt(getLocalName().substring(getLocalName().length()-1)))-1];
 
-        int idx = Integer.parseInt(getLocalName().replaceAll("\\D+", "")) - 1;
-        x = idx * 2;
-        y = 0;
-        gui.colocar(x, y, face);
+        gui.colocar(0, 0, face);
 
         System.out.println("Agente trabajador iniciado: " + getLocalName());
 
